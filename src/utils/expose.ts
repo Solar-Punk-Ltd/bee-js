@@ -27,6 +27,7 @@ export {
 
 export {
   EthAddress,
+  capitalizeAddressERC55,
   ethToSwarmAddress,
   fromLittleEndian,
   isHexEthAddress,
@@ -36,15 +37,6 @@ export {
   toLittleEndian,
 } from './eth'
 
-export {
-  isNodeReadable,
-  isReadable,
-  isReadableStream,
-  normalizeToReadableStream,
-  readableNodeToWeb,
-  readableWebToNode,
-} from './stream'
-
 export { keccak256Hash } from './hash'
 export { makeMaxTarget } from './pss'
 
@@ -53,7 +45,10 @@ export {
   getDepthForCapacity,
   getStampCostInBzz,
   getStampCostInPlur,
+  getStampEffectiveBytes,
   getStampMaximumCapacityBytes,
   getStampTtlSeconds,
   getStampUsage,
 } from './stamps'
+
+export { approximateOverheadForRedundancyLevel, getRedundancyStat, getRedundancyStats } from './redundancy'

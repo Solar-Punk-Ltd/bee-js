@@ -1,11 +1,12 @@
 import { decodeCid, encodeReference, ReferenceType } from '@ethersphere/swarm-cid'
+import { Readable } from 'stream'
 import {
   Address,
-  AddressPrefix,
   ADDRESS_HEX_LENGTH,
+  AddressPrefix,
   AllTagsOptions,
-  BatchId,
   BATCH_ID_HEX_LENGTH,
+  BatchId,
   BeeRequestOptions,
   CashoutOptions,
   CollectionUploadOptions,
@@ -13,14 +14,13 @@ import {
   FileUploadOptions,
   NumberString,
   PostageBatchOptions,
-  PssMessageHandler,
   PSS_TARGET_HEX_LENGTH_MAX,
+  PssMessageHandler,
   PUBKEY_HEX_LENGTH,
   PublicKey,
-  Readable,
   Reference,
-  ReferenceOrEns,
   REFERENCE_HEX_LENGTH,
+  ReferenceOrEns,
   Tag,
   TAGS_LIMIT_MAX,
   TAGS_LIMIT_MIN,
@@ -31,7 +31,10 @@ import {
 import { BeeArgumentError, BeeError } from './error'
 import { isFile } from './file'
 import { assertHexString, assertPrefixedHexString, isHexString } from './hex'
-import { isReadable } from './stream'
+
+export function isReadable(obj: unknown): obj is Readable {
+  return typeof Readable !== 'undefined' && obj instanceof Readable
+}
 
 export function isUint8Array(obj: unknown): obj is Uint8Array {
   return obj instanceof Uint8Array
@@ -51,17 +54,7 @@ export function isObject(value: unknown): value is Record<string, unknown> {
   return value !== null && typeof value === 'object'
 }
 
-/**
- * Generally it is discouraged to use `object` type, but in this case I think
- * it is best to do so as it is possible to easily convert from `object`to other
- * types, which will be usually the case after asserting that the object is
- * strictly object. With for example Record<string, unknown> you have to first
- * cast it to `unknown` which I think bit defeat the purpose.
- *
- * @param value
- */
-// eslint-disable-next-line @typescript-eslint/ban-types
-export function isStrictlyObject(value: unknown): value is object {
+export function isStrictlyObject(value: unknown): value is Record<string, unknown> {
   return isObject(value) && !Array.isArray(value)
 }
 
@@ -301,16 +294,7 @@ export function isTag(value: unknown): value is Tag {
     return false
   }
 
-  const tag = value as Record<string, unknown>
-
-  const numberProperties = ['total', 'processed', 'synced', 'uid']
-  const correctNumberProperties = numberProperties.every(numberProperty => typeof tag[numberProperty] === 'number')
-
-  if (!correctNumberProperties || !tag.startedAt || typeof tag.startedAt !== 'string') {
-    return false
-  }
-
-  return true
+  return Boolean(value.uid)
 }
 
 export function assertTag(value: unknown): asserts value is Tag {

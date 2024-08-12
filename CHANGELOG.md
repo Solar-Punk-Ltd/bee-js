@@ -1,6 +1,128 @@
 # Changelog
 
 
+## [7.1.1](https://github.com/ethersphere/bee-js/compare/v7.1.0...v7.1.1) (2024-08-08)
+
+
+### Bug Fixes
+
+* correct jsdocs links ([#938](https://github.com/ethersphere/bee-js/issues/938)) ([105909d](https://github.com/ethersphere/bee-js/commit/105909db865ea29be449cba9d1e54c2b479138aa))
+
+## [7.1.0](https://github.com/ethersphere/bee-js/compare/v7.0.4...v7.1.0) (2024-07-17)
+
+
+### Features
+
+* add capitalizeAddressERC55 function ([#933](https://github.com/ethersphere/bee-js/issues/933)) ([8e06014](https://github.com/ethersphere/bee-js/commit/8e06014fe2be32e6435bdec3fc75c86dbbc77f10))
+
+## [7.0.4](https://github.com/ethersphere/bee-js/compare/v7.0.3...v7.0.4) (2024-07-17)
+
+
+### Bug Fixes
+
+* add chaintip field ([#931](https://github.com/ethersphere/bee-js/issues/931)) ([4a45a56](https://github.com/ethersphere/bee-js/commit/4a45a562c649d90cb6fa3668cd74bf033ca18ad5))
+
+## [7.0.3](https://github.com/ethersphere/bee-js/compare/v7.0.2...v7.0.3) (2024-06-18)
+
+
+### Bug Fixes
+
+* ignore errors while waiting for stamp ([#927](https://github.com/ethersphere/bee-js/issues/927)) ([ac2092e](https://github.com/ethersphere/bee-js/commit/ac2092e173fe122d66bca77ddb9bbd3be351942a))
+
+## [7.0.2](https://github.com/ethersphere/bee-js/compare/v7.0.1...v7.0.2) (2024-06-17)
+
+
+### Bug Fixes
+
+* allow falsy feed index ([#925](https://github.com/ethersphere/bee-js/issues/925)) ([4e63889](https://github.com/ethersphere/bee-js/commit/4e638894144ff1eae1f6d095f9022da8a80df9a8))
+
+## [7.0.1](https://github.com/ethersphere/bee-js/compare/v7.0.0...v7.0.1) (2024-06-17)
+
+
+### Bug Fixes
+
+* floor update feed timestamp ([#923](https://github.com/ethersphere/bee-js/issues/923)) ([7170b47](https://github.com/ethersphere/bee-js/commit/7170b47f0751fc2daf7ee481da8eba8b7fb5de47))
+
+## [7.0.0](https://github.com/ethersphere/bee-js/compare/v6.9.1...v7.0.0) (2024-06-02)
+
+
+### ⚠ BREAKING CHANGES
+
+* merge api ([#920](https://github.com/ethersphere/bee-js/issues/920))
+
+### Features
+
+* merge api ([#920](https://github.com/ethersphere/bee-js/issues/920)) ([a7b68be](https://github.com/ethersphere/bee-js/commit/a7b68be04b859832c5a003cc95ab9ed598acb456))
+
+## [6.9.1](https://github.com/ethersphere/bee-js/compare/v6.9.0...v6.9.1) (2024-04-24)
+
+
+### Bug Fixes
+
+* add index param to feed writer ([#905](https://github.com/ethersphere/bee-js/issues/905)) ([077dcb7](https://github.com/ethersphere/bee-js/commit/077dcb7914399abbd9dab47aaf1e3eb9dceaffa3))
+
+## [6.9.0](https://github.com/ethersphere/bee-js/compare/v6.8.1...v6.9.0) (2024-03-27)
+
+
+### Features
+
+* add redundancy options and utils ([#896](https://github.com/ethersphere/bee-js/issues/896)) ([29899ed](https://github.com/ethersphere/bee-js/commit/29899ed8c4e155667782d31d94bc94f85ed64b3f))
+
+## [6.8.1](https://github.com/ethersphere/bee-js/compare/v6.8.0...v6.8.1) (2024-03-13)
+
+
+### Bug Fixes
+
+* add types under exports ([#911](https://github.com/ethersphere/bee-js/issues/911)) ([a3e1426](https://github.com/ethersphere/bee-js/commit/a3e142634c189c28b3eadebe00e1b913ec473f79))
+
+## [6.8.0](https://github.com/ethersphere/bee-js/compare/v6.7.4...v6.8.0) (2024-03-12)
+
+
+### Features
+
+* upgrade axios ([#909](https://github.com/ethersphere/bee-js/issues/909)) ([5076778](https://github.com/ethersphere/bee-js/commit/5076778ea327b6afce6a89c06eab567cda95e1de))
+
+## [6.7.4](https://github.com/ethersphere/bee-js/compare/v6.7.3...v6.7.4) (2024-02-27)
+
+
+### Bug Fixes
+
+* do not dispose arraybuffer in browser ([#906](https://github.com/ethersphere/bee-js/issues/906)) ([1524f74](https://github.com/ethersphere/bee-js/commit/1524f74d5eee182ba2ea95914a306853172945e1))
+
+## [6.7.3](https://github.com/ethersphere/bee-js/compare/v6.7.2...v6.7.3) (2024-02-08)
+
+
+### Bug Fixes
+
+* increase wait for usable time ([#902](https://github.com/ethersphere/bee-js/issues/902)) ([b98b97a](https://github.com/ethersphere/bee-js/commit/b98b97aad27d2e899bd524878ae55b81eb3d3da6))
+
+## [6.7.2](https://github.com/ethersphere/bee-js/compare/v6.7.1...v6.7.2) (2024-01-17)
+
+
+### Bug Fixes
+
+* change feed index type to index ([#900](https://github.com/ethersphere/bee-js/issues/900)) ([a600f12](https://github.com/ethersphere/bee-js/commit/a600f12544844a60380ef4eae1814374c85e9f13))
+
+## [6.7.1](https://github.com/ethersphere/bee-js/compare/v6.7.0...v6.7.1) (2024-01-17)
+
+
+### Bug Fixes
+
+* allow feed index to be 0 when downloading ([#897](https://github.com/ethersphere/bee-js/issues/897)) ([5440c81](https://github.com/ethersphere/bee-js/commit/5440c81dbd090bbd6e0897e7b47c861f6483ecca))
+* wait for stamp in edge cases ([#898](https://github.com/ethersphere/bee-js/issues/898)) ([d577f2c](https://github.com/ethersphere/bee-js/commit/d577f2c361ee3de1c90629fa82be31abd212a0f4))
+
+## [6.7.0](https://github.com/ethersphere/bee-js/compare/v6.6.0...v6.7.0) (2023-12-04)
+
+
+### Features
+
+* add stamp effective byte util ([#890](https://github.com/ethersphere/bee-js/issues/890)) ([34b40b7](https://github.com/ethersphere/bee-js/commit/34b40b711ccd1cce61fc4f97b377f2b282c0f8a8))
+
+
+### Bug Fixes
+
+* expose stamp effective volume util ([#893](https://github.com/ethersphere/bee-js/issues/893)) ([6adb8d2](https://github.com/ethersphere/bee-js/commit/6adb8d203b4a78db63d8a8791b8e52bf6f48bddc))
+
 ## [6.6.0](https://github.com/ethersphere/bee-js/compare/v6.5.1...v6.6.0) (2023-11-28)
 
 
