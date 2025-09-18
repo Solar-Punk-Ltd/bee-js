@@ -7,16 +7,38 @@ export class Bytes {
   protected readonly bytes: Uint8Array
   public readonly length: number
 
-  constructor(bytes: Uint8Array | ArrayBuffer | string | Bytes, byteLength?: number | number[]) {
+  constructor(bytes: Uint8Array | ArrayBuffer | string | Bytes | unknown, byteLength?: number | number[]) {
+    if (bytes === null || bytes === undefined) {
+      throw new Error('Bytes#constructor: bytes cannot be null or undefined')
+    }
+
     if (bytes instanceof Bytes) {
       this.bytes = bytes.bytes
     } else if (typeof bytes === 'string') {
       this.bytes = Binary.hexToUint8Array(Types.asHexString(bytes, { name: 'Bytes#constructor(bytes)' }))
     } else if (bytes instanceof ArrayBuffer) {
       this.bytes = new Uint8Array(bytes)
-    } else {
+    } else if (bytes instanceof Uint8Array) {
       this.bytes = bytes
+    } else if (ArrayBuffer.isView(bytes)) {
+      // Handle other typed array views (Int8Array, etc.) that might be passed in browser
+      this.bytes = new Uint8Array(bytes.buffer, bytes.byteOffset, bytes.byteLength)
+    } else if (typeof bytes === 'object' && bytes && 'buffer' in bytes && bytes.constructor === Object) {
+      // Handle browser-specific array-like objects with buffer property
+      this.bytes = new Uint8Array((bytes as { buffer: ArrayBuffer }).buffer)
+    } else if (typeof bytes === 'object' && Array.isArray(bytes)) {
+      // Handle plain arrays of numbers
+      this.bytes = new Uint8Array(bytes as number[])
+    } else {
+      throw new Error(
+        `Bytes#constructor: unsupported bytes type: ${typeof bytes} (constructor: ${bytes?.constructor?.name})`,
+      )
     }
+
+    if (!this.bytes) {
+      throw new Error('Bytes#constructor: failed to initialize bytes array')
+    }
+
     this.length = this.bytes.length
 
     if (byteLength) {
