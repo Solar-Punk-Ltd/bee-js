@@ -33,3 +33,5 @@ docs
 shaper.ts
 
 test/primitives/32mb.bin
+
+settings.json
