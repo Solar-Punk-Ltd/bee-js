@@ -28,6 +28,11 @@ export const DEFAULT_HTTP_CONFIG: AxiosRequestConfig = {
 export async function http<T>(options: BeeRequestOptions, config: AxiosRequestConfig): Promise<AxiosResponse<T>> {
   const requestConfig: AxiosRequestConfig = Objects.deepMerge3(DEFAULT_HTTP_CONFIG, config, options)
 
+  // Handle AbortSignal
+  if (options.signal) {
+    requestConfig.signal = options.signal as any
+  }
+
   if (requestConfig.data && typeof Buffer !== 'undefined' && Buffer.isBuffer(requestConfig.data)) {
     requestConfig.data = requestConfig.data.buffer.slice(
       requestConfig.data.byteOffset,

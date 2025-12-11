@@ -39,13 +39,27 @@ export async function streamFiles(
   postageBatchId = new BatchId(postageBatchId)
 
   async function onChunk(chunk: Chunk) {
+    // Check if upload was aborted
+    if (requestOptions?.signal?.aborted) {
+      throw new Error('Upload aborted')
+    }
+
     await queue.enqueue(async () => {
+      // Check again before uploading chunk
+      if (requestOptions?.signal?.aborted) {
+        throw new Error('Upload aborted')
+      }
       await bee.uploadChunk(postageBatchId, chunk.build(), options, requestOptions)
       onUploadProgress?.({ total, processed: ++processed })
     })
   }
   const mantaray = new MantarayNode()
   for (const file of files) {
+    // Check if upload was aborted before processing next file
+    if (requestOptions?.signal?.aborted) {
+      throw new Error('Upload aborted')
+    }
+
     const rootChunk = await new Promise<Chunk>((resolve, reject) => {
       const tree = new MerkleTree(onChunk)
 
@@ -53,13 +67,22 @@ export async function streamFiles(
 
       const reader = new FileReader()
 
+      // Listen to abort signal
+      const abortHandler = () => {
+        reader.abort()
+        reject(new Error('Upload aborted'))
+      }
+      requestOptions?.signal?.addEventListener('abort', abortHandler, { once: true })
+
       reader.onerror = () => {
+        requestOptions?.signal?.removeEventListener('abort', abortHandler)
         reject(reader.error)
       }
 
       const readNextChunk = async () => {
         if (offset >= file.size) {
           const rootChunk = await tree.finalize()
+          requestOptions?.signal?.removeEventListener('abort', abortHandler)
           resolve(rootChunk)
 
           return
@@ -71,6 +94,7 @@ export async function streamFiles(
 
       reader.onload = async event => {
         if (!event.target) {
+          requestOptions?.signal?.removeEventListener('abort', abortHandler)
           reject('No event target')
 
           return

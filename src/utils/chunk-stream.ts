@@ -52,32 +52,59 @@ export async function streamDirectory(
   let hasIndexHtml = false
 
   async function onChunk(chunk: Chunk) {
+    // Check if upload was aborted
+    if (requestOptions?.signal?.aborted) {
+      throw new Error('Upload aborted')
+    }
+
     await queue.enqueue(async () => {
+      // Check again before uploading chunk
+      if (requestOptions?.signal?.aborted) {
+        throw new Error('Upload aborted')
+      }
       await bee.uploadChunk(postageBatchId, chunk.build(), options, requestOptions)
       onUploadProgress?.({ total, processed: ++processed })
     })
   }
   const mantaray = new MantarayNode()
   for (const file of files) {
+    // Check if upload was aborted before processing next file
+    if (requestOptions?.signal?.aborted) {
+      throw new Error('Upload aborted')
+    }
+
     if (!file.fsPath) {
       throw Error('File does not have fsPath, which should never happen in node. Please report this issue.')
     }
     const readStream = createReadStream(file.fsPath)
 
-    const tree = new MerkleTree(onChunk)
-    for await (const data of readStream) {
-      await tree.append(data)
+    // Listen to abort signal and destroy the read stream
+    const abortHandler = () => {
+      readStream.destroy(new Error('Upload aborted'))
     }
-    const rootChunk = await tree.finalize()
-    await queue.drain()
-    const { filename, extension } = Strings.parseFilename(file.path)
-    mantaray.addFork(file.path, rootChunk.hash(), {
-      'Content-Type': maybeEnrichMime(mimes[extension.toLowerCase()] || 'application/octet-stream'),
-      Filename: filename,
-    })
+    requestOptions?.signal?.addEventListener('abort', abortHandler, { once: true })
 
-    if (file.path === 'index.html') {
-      hasIndexHtml = true
+    const tree = new MerkleTree(onChunk)
+    try {
+      for await (const data of readStream) {
+        if (requestOptions?.signal?.aborted) {
+          throw new Error('Upload aborted')
+        }
+        await tree.append(data)
+      }
+      const rootChunk = await tree.finalize()
+      await queue.drain()
+      const { filename, extension } = Strings.parseFilename(file.path)
+      mantaray.addFork(file.path, rootChunk.hash(), {
+        'Content-Type': maybeEnrichMime(mimes[extension.toLowerCase()] || 'application/octet-stream'),
+        Filename: filename,
+      })
+
+      if (file.path === 'index.html') {
+        hasIndexHtml = true
+      }
+    } finally {
+      requestOptions?.signal?.removeEventListener('abort', abortHandler)
     }
   }
 
