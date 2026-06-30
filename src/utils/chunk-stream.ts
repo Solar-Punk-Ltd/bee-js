@@ -112,6 +112,7 @@ export async function streamFiles(
   _files: File[] | FileList,
   _postageBatchId: BatchId,
   _onUploadProgress?: (progress: UploadProgress) => void,
+  _fileOptionsProvider?: (file: File) => Record<string, string>,
   _options?: UploadOptions,
   _requestOptions?: BeeRequestOptions,
 ): Promise<UploadResult> {

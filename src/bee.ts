@@ -673,6 +673,7 @@ export class Bee {
     postageBatchId: BatchId | Uint8Array | string,
     files: File[] | FileList,
     onUploadProgress?: (progress: UploadProgress) => void,
+    fileOptionsProvider?: (file: File) => Record<string, string>,
     options?: UploadOptions,
     requestOptions?: BeeRequestOptions,
   ) {
@@ -683,6 +684,7 @@ export class Bee {
       files,
       postageBatchId,
       onUploadProgress,
+      fileOptionsProvider,
       options,
       this.getRequestOptionsForCall(requestOptions),
     )

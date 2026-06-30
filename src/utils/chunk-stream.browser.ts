@@ -27,6 +27,7 @@ export async function streamFiles(
   files: File[] | FileList,
   postageBatchId: BatchId,
   onUploadProgress?: (progress: UploadProgress) => void,
+  fileOptionsProvider?: (file: File) => Record<string, string>,
   options?: UploadOptions,
   requestOptions?: BeeRequestOptions,
 ): Promise<UploadResult> {
@@ -117,6 +118,7 @@ export async function streamFiles(
     mantaray.addFork(makeFilePath(file), rootChunk.hash(), {
       'Content-Type': maybeEnrichMime(mimes[extension.toLowerCase()] || 'application/octet-stream'),
       Filename: filename,
+      ...(fileOptionsProvider ? fileOptionsProvider(file) : {}),
     })
 
     if (file.name === 'index.html') {
