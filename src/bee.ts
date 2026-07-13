@@ -227,7 +227,7 @@ export class Bee {
    */
   async uploadData(
     postageBatchId: BatchId | Uint8Array | string,
-    data: string | Uint8Array,
+    data: string | Uint8Array | Blob | Readable,
     options?: RedundantUploadOptions,
     requestOptions?: BeeRequestOptions,
   ): Promise<UploadResult> {
